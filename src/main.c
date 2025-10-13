@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
             return STATUS_ERROR;
         }
 
-        if (create_db_header(dbfd, &dbhdr) == STATUS_ERROR)
+        if (create_db_header(&dbhdr) == STATUS_ERROR)
         {
             printf("Failed to create database file\n");
             return STATUS_ERROR;
