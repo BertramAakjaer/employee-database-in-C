@@ -86,9 +86,19 @@ int create_db_header(struct dbheader_t **headerOut) {
         return STATUS_ERROR;
     }
 
-    if (&header == NULL)
+    if (&headerOut == NULL)
     {
         printf("NULL pointer used");
+        return STATUS_ERROR;
+    }
+    if (headerOut == NULL)
+    {
+        printf("Null pointer passed as employees list\n");
+        return STATUS_ERROR;
+    }
+    if (*headerOut == NULL)
+    {
+        printf("Null pointer passed as employees list\n");
         return STATUS_ERROR;
     }
 
