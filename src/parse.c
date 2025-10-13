@@ -24,14 +24,31 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     *employees = new_employees; 
 
     char *name = strtok(addstring, ",");
-    char *addr = strtok(NULL, ",");
-    char *hours = strtok(NULL, ",");
+char *addr = strtok(NULL, ",");
+char *hours_str = strtok(NULL, ",");
 
-    strncpy((*employees)[dbhdr->count - 1].name, name, sizeof((*employees)[dbhdr->count - 1].name) - 1);
-    strncpy((*employees)[dbhdr->count - 1].address, addr, sizeof((*employees)[dbhdr->count - 1].address) - 1);
-    (*employees)[dbhdr->count - 1].hours = atoi(hours);
+// CHECK 1: Ensure all required tokens were found
+if (name == NULL || addr == NULL || hours_str == NULL) {
+    // Optionally: realloc to undo the count increment and realloc
+    dbhdr->count--;
+    // Consider reallocating to the previous size if needed,
+    // or just return an error and expect the caller to clean up.
+    return STATUS_ERROR; // Malformed input string
+}
 
-    return STATUS_SUCCESS;
+// Check 2: strncpy and atoi/strtol use the non-NULL pointers
+// strncpy is used correctly to prevent overflow, but ensure manual NULL termination:
+size_t index = dbhdr->count - 1;
+
+strncpy((*employees)[index].name, name, sizeof((*employees)[index].name) - 1);
+(*employees)[index].name[sizeof((*employees)[index].name) - 1] = '\0'; // Manual null-termination
+
+strncpy((*employees)[index].address, addr, sizeof((*employees)[index].address) - 1);
+(*employees)[index].address[sizeof((*employees)[index].address) - 1] = '\0'; // Manual null-termination
+
+(*employees)[index].hours = atoi(hours_str); 
+
+return STATUS_SUCCESS;
 }
 
 
