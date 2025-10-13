@@ -1,0 +1,4 @@
+/bin/dbview
+/obj/*.o
+
+*.db
