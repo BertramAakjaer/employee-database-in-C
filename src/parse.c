@@ -26,7 +26,7 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     strncpy((*employees)[dbhdr->count - 1].address, addr, sizeof((*employees)[dbhdr->count - 1].address) - 1);
     (*employees)[dbhdr->count - 1].hours = atoi(hours);
 
-    return STATUS_SUCCESS;
+    return 0;
 }
 
 
