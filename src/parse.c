@@ -10,19 +10,7 @@
 #include "common.h"
 #include "parse.h"
 
-void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
-
-}
-
-int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addstring) {
-
-}
-
-int read_employees(int fd, struct dbheader_t *dbhdr, struct employee_t **employeesOut) {
-
-}
-
-void output_file(int fd, struct dbheader_t *dbhdr) {
+int output_file(int fd, struct dbheader_t *dbhdr) {
     if (fd < 0) {
         printf("Got a bad FD from the user\n");
         return STATUS_ERROR;
@@ -36,7 +24,7 @@ void output_file(int fd, struct dbheader_t *dbhdr) {
     lseek(fd, 0, SEEK_SET);
     write(fd, dbhdr, sizeof(struct dbheader_t));
 
-    return;
+    return STATUS_SUCCESS;
 }	
 
 int validate_db_header(int fd, struct dbheader_t **headerOut) {
