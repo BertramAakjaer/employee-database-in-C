@@ -16,6 +16,11 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     dbhdr->count++;
     struct employee_t *new_employees = realloc(*employees, dbhdr->count*(sizeof(struct employee_t)));
 
+    if (new_employees == NULL)
+    {
+        return STATUS_ERROR;
+    }
+
     *employees = new_employees; 
 
     char *name = strtok(addstring, ",");
@@ -26,7 +31,7 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     strncpy((*employees)[dbhdr->count - 1].address, addr, sizeof((*employees)[dbhdr->count - 1].address) - 1);
     (*employees)[dbhdr->count - 1].hours = atoi(hours);
 
-    return 0;
+    return STATUS_SUCCESS;
 }
 
 
