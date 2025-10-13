@@ -11,7 +11,7 @@
 #include "parse.h"
 
 
-int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addstring) {
+int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addstring) {
 
     char *name = strtok(addstring, ",");
     char *addr = strtok(NULL, ",");
