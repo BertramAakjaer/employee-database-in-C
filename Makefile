@@ -4,14 +4,13 @@ OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 
 run: clean default
 	./$(TARGET) -n -f ./mydb.db
-	./$(TARGET) -f ./mydb.db
+	./$(TARGET) -f ./mydb.db -a "Timmy A.,Sheshire Ln.,230"
 
 default: $(TARGET)
 
 clean:
 	rm -f obj/*.o
 	rm -f bin/*
-	rm -f *.db
 
 $(TARGET): $(OBJ)
 	gcc -std=c11 -o $@ $?
