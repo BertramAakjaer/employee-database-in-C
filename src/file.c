@@ -38,5 +38,3 @@ int open_db_file(char *filename) {
 
     return fd;
 }
-
-
