@@ -11,44 +11,17 @@
 #include "parse.h"
 
 
-int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addstring) {
-
-    dbhdr->count++;
-    struct employee_t *new_employees = realloc(*employees, dbhdr->count*(sizeof(struct employee_t)));
-
-    if (new_employees == NULL)
-    {
-        return STATUS_ERROR;
-    }
-
-    *employees = new_employees; 
+int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addstring) {
 
     char *name = strtok(addstring, ",");
-char *addr = strtok(NULL, ",");
-char *hours_str = strtok(NULL, ",");
+    char *addr = strtok(NULL, ",");
+    char *hours = strtok(NULL, ",");
 
-// CHECK 1: Ensure all required tokens were found
-if (name == NULL || addr == NULL || hours_str == NULL) {
-    // Optionally: realloc to undo the count increment and realloc
-    dbhdr->count--;
-    // Consider reallocating to the previous size if needed,
-    // or just return an error and expect the caller to clean up.
-    return STATUS_ERROR; // Malformed input string
-}
+    strncpy(employees[dbhdr->count - 1].name, name, sizeof(employees[dbhdr->count - 1].name));
+    strncpy(employees[dbhdr->count - 1].address, addr, sizeof(employees[dbhdr->count - 1].address));
+    employees[dbhdr->count - 1].hours = atoi(hours);
 
-// Check 2: strncpy and atoi/strtol use the non-NULL pointers
-// strncpy is used correctly to prevent overflow, but ensure manual NULL termination:
-size_t index = dbhdr->count - 1;
-
-strncpy((*employees)[index].name, name, sizeof((*employees)[index].name) - 1);
-(*employees)[index].name[sizeof((*employees)[index].name) - 1] = '\0'; // Manual null-termination
-
-strncpy((*employees)[index].address, addr, sizeof((*employees)[index].address) - 1);
-(*employees)[index].address[sizeof((*employees)[index].address) - 1] = '\0'; // Manual null-termination
-
-(*employees)[index].hours = atoi(hours_str); 
-
-return STATUS_SUCCESS;
+    return STATUS_SUCCESS;
 }
 
 
@@ -78,7 +51,6 @@ int read_emplotees(int fd, struct dbheader_t *dbhdr, struct employee_t **employe
     *employeesOut = employees;
     return STATUS_SUCCESS;
 }
-
 
 
 
